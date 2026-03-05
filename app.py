@@ -8,6 +8,7 @@ from scipy.stats import gaussian_kde
 def load_data(file_path):
     df = pd.read_csv(file_path)
     if 'YEAR' in df.columns:
+        # 소수점 제거 후 정수로 변환
         df['YEAR_INT'] = df['YEAR'].astype(int)
         df['DATE'] = pd.to_datetime(df['YEAR_INT'].astype(str), format='%Y')
         df.set_index('DATE', inplace=True)
@@ -83,12 +84,12 @@ try:
     filtered_df = df
 
     if not filtered_df.empty:
-        st.subheader('Comprehensive Sunspot Data Visualization')
+        st.subheader('태양흑점 데이터 종합 시각화')
         fig = plot_advanced_sunspot_visualizations(filtered_df)
         st.pyplot(fig)
     else:
-        st.warning("No data available.")
+        st.warning("데이터가 없습니다.")
 
 except Exception as e:
-    st.error(f"An error occurred: {e}")
-    st.info("Please check the data file. 'data/sunspots.csv' must exist with 'YEAR' and 'SUNACTIVITY' columns.")
+    st.error(f"오류가 발생했습니다: {e}")
+    st.info("데이터 파일의 구조를 확인해주세요. 'data/sunspots.csv' 파일이 존재하고 'YEAR'와 'SUNACTIVITY' 컬럼이 있어야 합니다.")
